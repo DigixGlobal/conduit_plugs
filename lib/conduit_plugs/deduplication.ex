@@ -1,9 +1,9 @@
 defmodule ConduitPlugs.Deduplication do
   @moduledoc """
-  Prevents messages from being handled more than once by checking the
-  message ID. If no message ID is set, it passes the message through. It
-  is suggested to use `Conduit.Plug.MessageId` before this plug to have
-  an auto-generated message ID.
+  Prevents messages from being handled (not received) more than once by
+  checking the message ID. If no message ID is set, it passes the
+  message through. It is suggested to use `Conduit.Plug.MessageId`
+  before this plug to have an auto-generated message ID.
 
   This works by storing the message ID in a time-based cache which can
   be configured via `:ttl` option or globally with `:default_ttl`

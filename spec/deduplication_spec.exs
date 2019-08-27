@@ -2,7 +2,6 @@ defmodule ConduitPlugs.DeduplicationSpec do
   use ESpec
   import DeduplicationAssertions
 
-  alias UUID
   alias Conduit.Message
 
   alias ConduitPlugs.Deduplication
@@ -13,7 +12,7 @@ defmodule ConduitPlugs.DeduplicationSpec do
     end
 
     def create_message(id \\ nil) do
-      %Message{message_id: id || UUID.uuid4(), body: "#{DateTime.utc_now()}"}
+      %Message{message_id: id || :random.uniform(), body: "#{DateTime.utc_now()}"}
     end
 
     it "should dedup" do

@@ -31,9 +31,10 @@ defmodule ConduitPlugs.MixProject do
     [
       {:conduit, "0.12.10"},
       {:cachex, "~> 3.2"},
-      {:uuid, "~> 1.1", only: :test},
+      {:jason, "~> 1.1.0", optional: true},
       {:coverex, "~> 1.4.10", only: :test},
-      {:espec, "~> 1.7.0", only: :test}
+      {:espec, "~> 1.7.0", only: :test},
+      {:quixir, "~> 0.9", only: :test}
     ]
   end
 
