@@ -12,7 +12,12 @@ defmodule ConduitPlugs.DeduplicationSpec do
     end
 
     def create_message(id \\ nil) do
-      %Message{message_id: id || :random.uniform(), body: "#{DateTime.utc_now()}"}
+      %Message{
+        message_id:
+          id ||
+            :crypto.strong_rand_bytes(32) |> Base.encode64(),
+        body: "#{DateTime.utc_now()}"
+      }
     end
 
     it "should dedup" do
@@ -53,11 +58,14 @@ defmodule ConduitPlugs.DeduplicationSpec do
 
     it "TTL should expire" do
       message = create_message()
-      interval = Application.get_env(:conduit_plugs, ConduitPlugs.Deduplication)[:default_ttl_interval]
+
+      interval =
+        Application.get_env(:conduit_plugs, ConduitPlugs.Deduplication)[:default_ttl_interval]
+
       ttl = interval + :rand.uniform(3000)
 
       message
-      |> described_module().run([ttl: ttl])
+      |> described_module().run(ttl: ttl)
       |> expect()
       |> to_not(be_deduped())
 
